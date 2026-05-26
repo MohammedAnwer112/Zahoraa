@@ -1,10 +1,10 @@
-   فوراً
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>عالم زهرورة اللطيف ✨</title>
+    <!-- استدعاء خطوط عربية مبهجة وظريفة من جوجل -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Changa:wght@700&family=Marhey:wght@700&family=Reem+Kufi:wght@700&family=Tajawal:wght@700&display=swap">
     
     <style>
@@ -134,12 +134,15 @@ html_content = """<!DOCTYPE html>
 <body>
 
     <div class="card">
+        <!-- اسم زهرورة المتحرك والجميل -->
         <h1 class="name-zahroura" id="zahrouraName">زَهْرُورَة 🌸</h1>
         
         <p class="subtitle" id="subText">اضغطي على الزر السحري لرؤية مفاجأتكِ السعيدة! ✨</p>
         
+        <!-- مكان ظهور معايدة عيد الأضحى -->
         <div class="greeting-text" id="eidGreeting"></div>
         
+        <!-- الزر التفاعلي للمعايدة ونثر السحر وتغيير الخط -->
         <button class="btn-cute" onclick="magicEidAction()">اضغطي للمعايدة والسحر! 🐑💕</button>
     </div>
 
@@ -233,7 +236,4 @@ html_content = """<!DOCTYPE html>
         }
     </script>
 </body>
-</head> 
-with open("zahroura_eid.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-print("File generated successfully")
+</html>
