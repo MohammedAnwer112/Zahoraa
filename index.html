@@ -1,0 +1,242 @@
+# لتجهيز الكود في ملف HTML نظيف وكامل وتوفيره للمستخدم كملف قابل للتحميل فوراً
+html_content = """<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عالم زهرورة اللطيف ✨</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Changa:wght@700&family=Marhey:wght@700&family=Reem+Kufi:wght@700&family=Tajawal:wght@700&display=swap">
+    
+    <style>
+        /* إعدادات الخلفية المبهجة والناعمة */
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #fff0f5, #ffe4e1, #e0ffff);
+            font-family: 'Tajawal', sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* حاوية المحتوى الرئيسية بتصميم زجاجي ظريف */
+        .card {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 50px;
+            border-radius: 35px;
+            box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
+            backdrop-filter: blur(12px);
+            border: 3px solid #fff;
+            max-width: 85%;
+            width: 450px;
+            transform: scale(0.9);
+            animation: popIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
+        }
+
+        /* تصميم وتحريك اسم زهرورة البهيج */
+        .name-zahroura {
+            font-size: 4.5rem;
+            font-weight: bold;
+            color: #ff5e7e;
+            margin: 0;
+            display: inline-block;
+            text-shadow: 3px 3px 0px #fff, 6px 6px 0px #ffc0cb;
+            animation: float 3s ease-in-out infinite;
+            transition: font-family 0.4s ease-in-out;
+            font-family: 'Marhey', cursive;
+        }
+
+        /* حركة طفو لطيفة للاسم */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+
+        /* عبارة المعايدة لـ عيد الأضحى المبارك */
+        .greeting-text {
+            font-size: 1.6rem;
+            color: #ff477e;
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 40px;
+            transition: all 0.5s ease-in-out;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* كلاس إظهار المعايدة بشكل متحرك */
+        .greeting-text.show {
+            opacity: 1;
+            transform: translateY(0);
+            animation: pulseText 1.5s infinite ease-in-out alternate;
+        }
+
+        @keyframes pulseText {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6c757d;
+            margin-top: 10px;
+        }
+
+        /* زر تفاعلي ظريف */
+        .btn-cute {
+            background: linear-gradient(45deg, #ff7096, #ff477e);
+            color: white;
+            border: none;
+            padding: 14px 35px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 6px 20px rgba(255, 112, 150, 0.4);
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: 'Cairo', sans-serif;
+            font-weight: bold;
+        }
+
+        .btn-cute:hover {
+            transform: scale(1.08);
+            box-shadow: 0 10px 25px rgba(255, 71, 126, 0.6);
+        }
+
+        .btn-cute:active {
+            transform: scale(0.95);
+        }
+
+        /* جزيئات المفاجآت والقلوب المتساقطة */
+        .magic-particle {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.6rem;
+            animation: fall linear forwards;
+            z-index: 999;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) scale(0.4) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1 class="name-zahroura" id="zahrouraName">زَهْرُورَة 🌸</h1>
+        
+        <p class="subtitle" id="subText">اضغطي على الزر السحري لرؤية مفاجأتكِ السعيدة! ✨</p>
+        
+        <div class="greeting-text" id="eidGreeting"></div>
+        
+        <button class="btn-cute" onclick="magicEidAction()">اضغطي للمعايدة والسحر! 🐑💕</button>
+    </div>
+
+    <script>
+        // قائمة الخطوط اللطيفة المتاحة لتبديل اسم زهرورة
+        const fonts = ['Marhey', 'Cairo', 'Changa', 'Reem Kufi', 'Tajawal'];
+        let currentFontIndex = 0;
+
+        // قائمة بعبارات معايدة عيد الأضحى اللطيفة لتتغير في كل ضغطة
+        const eidGreetings = [
+            "كُلُّ عَامٍ وَأَنْتِ بِخَيْرٍ يَا زَهْرُورَة! 🐑✨",
+            "عِيدُ أَضْحَى مُبَارَك وَسَعِيد لِأَجْمَلِ زَهْرَة! 🌸",
+            "أَسْعَدَ اللَّهُ أَيَّامَكِ وَجَعَلَ عِيدَكِ فَرْحَةً لَا تَنْتَهِي! 🎉",
+            "عِيدُكِ مُبَارَك يَا زَهْرُورَة الحلوة! 🎈🐑",
+            "عَسَاكِ مِنَ عَوَّادَهُ وَكُلُّ سَنَةٍ وَأَنْتِ طَيِّبَة! 💕"
+        ];
+        let greetingIndex = 0;
+
+        // الدالة السحرية الرئيسية عند ضغط الزر
+        function magicEidAction() {
+            changeFont();
+            showEidGreeting();
+            createMagicShower();
+        }
+
+        // 1. دالة تغيير الخط
+        function changeFont() {
+            const nameElement = document.getElementById('zahrouraName');
+            currentFontIndex = (currentFontIndex + 1) % fonts.length;
+            nameElement.style.fontFamily = fonts[currentFontIndex];
+        }
+
+        // 2. دالة إظهار وتغيير معايدة عيد الأضحى المبارك
+        function showEidGreeting() {
+            const greetingElement = document.getElementById('eidGreeting');
+            const subTextElement = document.getElementById('subText');
+            
+            // إخفاء النص الفرعي الأولي لإبراز المعايدة
+            subTextElement.style.display = 'none';
+            
+            // تغيير نص المعايدة بالتناوب وتنشيط التحريك
+            greetingElement.innerText = eidGreetings[greetingIndex];
+            greetingElement.classList.remove('show');
+            void greetingElement.offsetWidth; // إعادة تشغيل الـ Animation
+            greetingElement.classList.add('show');
+            
+            greetingIndex = (greetingIndex + 1) % eidGreetings.length;
+        }
+
+        // تأثير نثر الجزيئات اللطيفة عند حركة الماوس أو اللمس
+        document.addEventListener('mousemove', (e) => {
+            if(Math.random() > 0.88) { 
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if(Math.random() > 0.88) {
+                createParticle(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+
+        // دالة إنشاء الجزيئات (خراف صغيرة، قلوب، زهور، نجوم)
+        function createParticle(x, y) {
+            const elements = ['🌸', '🐑', '💕', '✨', '🎈', '🍬', '☁️'];
+            const particle = document.createElement('div');
+            particle.classList.add('magic-particle');
+            
+            particle.innerText = elements[Math.floor(Math.random() * elements.length)];
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            
+            const duration = Math.random() * 2 + 1.5;
+            particle.style.animationDuration = duration + 's';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, duration * 1000);
+        }
+
+        // 3. دالة الزر لنثر زخات سحرية كثيفة دفعة واحدة (مطر الخراف والورود)
+        function createMagicShower() {
+            for(let i = 0; i < 35; i++) {
+                setTimeout(() => {
+                    const randomX = Math.random() * window.innerWidth;
+                    createParticle(randomX, -20);
+                }, i * 35);
+            }
+        }
+    </script>
+</body>
+</html>
+"""
+
+# حفظ الكود في ملف بصيغة html للتحميل المباشر للمستخدم
+with open("zahroura_eid.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+print("File generated successfully")
